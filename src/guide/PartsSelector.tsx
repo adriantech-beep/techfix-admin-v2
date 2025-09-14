@@ -1,3 +1,4 @@
+import { useFormContext } from "react-hook-form";
 import type { GuideForm } from "./guideSchema";
 
 import {
@@ -16,7 +17,6 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { UseFormReturn } from "react-hook-form";
 import {
   Card,
   CardContent,
@@ -75,7 +75,6 @@ const listOfParts = {
       "Thermal Pads / Thermal Paste",
     ],
   },
-
   laptop: {
     display: [
       "LCD Panel",
@@ -122,15 +121,13 @@ const listOfParts = {
   },
 };
 
-type PartsSelectorProps = {
-  form: UseFormReturn<GuideForm>;
-};
-
 type DeviceType = keyof typeof listOfParts;
 
-const PartsSelector = ({ form }: PartsSelectorProps) => {
-  const selectedParts = form.watch("parts") || [];
-  const deviceType = form.watch("deviceType") as DeviceType | "";
+const PartsSelector = () => {
+  const { control, watch, setValue } = useFormContext<GuideForm>();
+
+  const selectedParts = watch("parts") || [];
+  const deviceType = watch("deviceType") as DeviceType | "";
 
   const updatePart = (index: number, key: keyof Part, value: string) => {
     const updated = [...selectedParts];
@@ -138,7 +135,7 @@ const PartsSelector = ({ form }: PartsSelectorProps) => {
       ...updated[index],
       [key]: key === "qty" ? Number(value) || 1 : value,
     };
-    form.setValue("parts", updated, {
+    setValue("parts", updated, {
       shouldDirty: true,
       shouldValidate: true,
     });
@@ -151,7 +148,7 @@ const PartsSelector = ({ form }: PartsSelectorProps) => {
     } else {
       updated = selectedParts.filter((p) => p.name !== name);
     }
-    form.setValue("parts", updated, {
+    setValue("parts", updated, {
       shouldDirty: true,
       shouldValidate: true,
     });
@@ -169,8 +166,9 @@ const PartsSelector = ({ form }: PartsSelectorProps) => {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
+        {/* Device type selector */}
         <FormField
-          control={form.control}
+          control={control}
           name="deviceType"
           render={({ field }) => (
             <FormItem className="max-w-xs">
@@ -228,8 +226,9 @@ const PartsSelector = ({ form }: PartsSelectorProps) => {
 
                         {checked && part && (
                           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pl-7">
+                            {/* Part Number */}
                             <FormField
-                              control={form.control}
+                              control={control}
                               name={`parts.${partIndex}.partNumber`}
                               render={() => (
                                 <FormItem>
@@ -250,8 +249,9 @@ const PartsSelector = ({ form }: PartsSelectorProps) => {
                               )}
                             />
 
+                            {/* Quantity */}
                             <FormField
-                              control={form.control}
+                              control={control}
                               name={`parts.${partIndex}.qty`}
                               render={() => (
                                 <FormItem>
@@ -273,8 +273,9 @@ const PartsSelector = ({ form }: PartsSelectorProps) => {
                               )}
                             />
 
+                            {/* Link */}
                             <FormField
-                              control={form.control}
+                              control={control}
                               name={`parts.${partIndex}.link`}
                               render={() => (
                                 <FormItem>

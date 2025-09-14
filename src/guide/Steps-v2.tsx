@@ -149,141 +149,72 @@
 //   );
 // };
 
-// export default Steps;
-import { Card } from "@/components/ui/card";
-import {
-  useFieldArray,
-  type Control,
-  type FieldArrayWithId,
-  type UseFieldArrayRemove,
-  // FieldArrayWithId,
-  // UseFieldArrayRemove,
-  type UseFormRegister,
-  type UseFormSetValue,
-  // UseFormSetValue,
-  // Control,
-} from "react-hook-form";
+// Steps.tsx
+import { useFieldArray, useFormContext } from "react-hook-form";
 import type { GuideForm } from "./guideSchema";
-import { CircleX } from "lucide-react";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import StepImage from "./StepImage";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import StepImage from "./StepImage";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
 
-// import { Controller } from "react-hook-form";
-// import { Button } from "@/components/ui/button";
-// import { useState } from "react";
-// import StepImage from "./StepImage";
-
-type StepProps = {
-  step: FieldArrayWithId<GuideForm, "steps", "id">;
-  idx: number;
-  register: UseFormRegister<GuideForm>;
-  removeStep: UseFieldArrayRemove;
-  setValue: UseFormSetValue<GuideForm>;
-  control: Control<GuideForm>;
-};
-
-const Steps = ({
-  step,
-  idx,
-  removeStep,
-  register,
-  control,
-  setValue,
-}: StepProps) => {
-  const [previews, setPreviews] = useState<Record<string, string>>({});
+const Steps = () => {
+  const { control, register } = useFormContext<GuideForm>();
 
   const {
-    fields: imageFields,
-    append: appendImage,
-    remove: removeImage,
+    fields: stepFields,
+    append: appendStep,
+    remove: removeStep,
   } = useFieldArray({
     control,
-    name: `steps.${idx}.images` as const,
+    name: "steps",
   });
 
-  const handleFileChange = (
-    file: File,
-    stepIndex: number,
-    imgIndex: number
-  ) => {
-    const url = URL.createObjectURL(file);
-    setPreviews((prev) => ({
-      ...prev,
-      [`${stepIndex}-${imgIndex}`]: url,
-    }));
-
-    // ✅ store the file into RHF using setValue
-    setValue(`steps.${stepIndex}.images.${imgIndex}.file`, file, {
-      shouldDirty: true,
-      shouldValidate: true,
+  const onAddStep = () =>
+    appendStep({
+      title: "",
+      bodyMarkdown: "",
+      images: [], // matches schema default
     });
-  };
+
   return (
-    <div className="border p-4 rounded mb-4">
-      <h3 className="font-semibold mb-2">Step {idx + 1}</h3>
+    <div className="space-y-4">
+      <div className="flex gap-2">
+        <Button type="button" onClick={onAddStep}>
+          Add Step
+        </Button>
+      </div>
 
-      <Input
-        defaultValue={step.title}
-        {...register(`steps.${idx}.title`)}
-        placeholder="Step description..."
-        className="mb-2"
-      />
-      <Textarea
-        {...register(`steps.${idx}.bodyMarkdown`)}
-        placeholder="Step description"
-        defaultValue={step.bodyMarkdown}
-      />
+      {stepFields.map((step, stepIndex) => (
+        <div key={step.id} className="border p-4 rounded mb-4">
+          <div className="flex justify-between items-start">
+            <h3 className="font-semibold">Step {stepIndex + 1}</h3>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => removeStep(stepIndex)}
+            >
+              Delete Step
+            </Button>
+          </div>
 
-      <StepImage
-        imageFields={imageFields}
-        handleFileChange={handleFileChange}
-        previews={previews}
-        removeImage={removeImage}
-        idx={idx}
-        register={register}
-        control={control}
-      />
+          <Input
+            {...register(`steps.${stepIndex}.title` as const)}
+            placeholder="Step title"
+            defaultValue={step.title ?? ""}
+            className="mb-2"
+          />
 
-      <Button
-        type="button"
-        onClick={() =>
-          appendImage({
-            url: "",
-            file: undefined,
-            caption: "",
-            alt: "",
-            // thumbnailUrl: "",
-            hotspotAnnotations: [],
-          })
-        }
-      >
-        Add Image
-      </Button>
+          <Textarea
+            {...register(`steps.${stepIndex}.bodyMarkdown` as const)}
+            placeholder="Step description"
+            defaultValue={step.bodyMarkdown ?? ""}
+            className="mb-2"
+          />
 
-      <Button
-        type="button"
-        variant="destructive"
-        onClick={() => removeStep(idx)}
-      >
-        Delete Step
-      </Button>
+          {/* StepImage handles images/hotspots for this step */}
+          <StepImage stepIndex={stepIndex} />
+        </div>
+      ))}
     </div>
   );
 };

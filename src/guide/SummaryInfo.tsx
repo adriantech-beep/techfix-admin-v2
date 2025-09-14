@@ -14,12 +14,8 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-// import type { z } from "zod";
-// import { guideSchema } from "@/guide/guideSchema";
-import type { UseFormReturn } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import type { GuideForm } from "./guideSchema";
-
-// type GuideForm = z.infer<typeof guideSchema>;
 
 type InputType = "text" | "number" | "email" | "password" | "date" | "select";
 
@@ -63,11 +59,9 @@ const summaryInfoFields: FieldConfig[] = [
   },
 ];
 
-type SummaryInfoProps = {
-  form: UseFormReturn<GuideForm>;
-};
+const SummaryInfo = () => {
+  const { control } = useFormContext<GuideForm>();
 
-const SummaryInfo = ({ form }: SummaryInfoProps) => {
   return (
     <Card className="rounded-2xl shadow-md border">
       <CardHeader>
@@ -80,7 +74,7 @@ const SummaryInfo = ({ form }: SummaryInfoProps) => {
           ({ name, label, placeholder, type, options }) => (
             <FormField
               key={name}
-              control={form.control}
+              control={control}
               name={name}
               render={({ field }) => (
                 <FormItem>
@@ -89,7 +83,7 @@ const SummaryInfo = ({ form }: SummaryInfoProps) => {
                     {type === "select" ? (
                       <Select
                         onValueChange={field.onChange}
-                        value={field.value ?? ""}
+                        value={(field.value as string | undefined) ?? ""}
                       >
                         <SelectTrigger className="w-[180px]">
                           <SelectValue placeholder={placeholder} />
@@ -107,7 +101,12 @@ const SummaryInfo = ({ form }: SummaryInfoProps) => {
                         type={type}
                         placeholder={placeholder}
                         {...field}
-                        value={field.value ?? ""}
+                        value={
+                          typeof field.value === "number" ||
+                          typeof field.value === "string"
+                            ? field.value
+                            : ""
+                        }
                         onChange={(e) =>
                           field.onChange(
                             type === "number"

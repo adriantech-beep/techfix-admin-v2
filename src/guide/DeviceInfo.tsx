@@ -8,11 +8,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
+import { useFormContext } from "react-hook-form";
 import type { GuideForm } from "@/guide/guideSchema";
-import type { UseFormReturn } from "react-hook-form";
 
 type FieldConfig = {
-  name: keyof GuideForm; // must match a property in GuideForm
+  name: keyof GuideForm;
   label: string;
   placeholder: string;
   type: string;
@@ -45,11 +45,9 @@ const deviceInfoFields: FieldConfig[] = [
   },
 ];
 
-type DeviceInfoProps = {
-  form: UseFormReturn<GuideForm>;
-};
+const DeviceInfo = () => {
+  const { control } = useFormContext<GuideForm>();
 
-const DeviceInfo = ({ form }: DeviceInfoProps) => {
   return (
     <Card className="rounded-2xl shadow-md border">
       <CardHeader>
@@ -61,7 +59,7 @@ const DeviceInfo = ({ form }: DeviceInfoProps) => {
         {deviceInfoFields.map(({ name, label, placeholder, type }) => (
           <FormField
             key={name}
-            control={form.control}
+            control={control}
             name={name}
             render={({ field }) => (
               <FormItem>
@@ -71,7 +69,7 @@ const DeviceInfo = ({ form }: DeviceInfoProps) => {
                     type={type}
                     placeholder={placeholder}
                     {...field}
-                    value={field.value as string | number | undefined}
+                    value={(field.value as string | number | undefined) ?? ""}
                     onChange={(e) => field.onChange(e.target.value)}
                   />
                 </FormControl>

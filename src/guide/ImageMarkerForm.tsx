@@ -1,152 +1,48 @@
-// import {
-//   useFieldArray,
-//   type Control,
-//   type UseFormRegister,
-// } from "react-hook-form";
-// import ImageMarker from "react-image-marker";
-
-// import type { GuideForm } from "./guideSchema";
-
-// type ImageMarkerProps = {
-//   previews: Record<string, string>;
-//   index: number;
-//   img: GuideForm["steps"][number]["images"][number];
-//   imgIndex: number;
-//   register: UseFormRegister<GuideForm>;
-//   control: Control<GuideForm>;
-// };
-
-// const ImageMarkerForm = ({
-//   previews,
-//   index,
-//   img,
-//   imgIndex,
-//   register,
-//   control,
-// }: ImageMarkerProps) => {
-//   // nested field array for hotspotAnnotations
-//   const {
-//     fields: hotspotFields,
-//     append: appendHotspot,
-//     remove: removeHotspot,
-//   } = useFieldArray({
-//     control,
-//     name: `steps.${index}.images.${imgIndex}.hotspotAnnotations`,
-//   });
-
-//   return (
-//     <div className="space-y-2">
-//       {/* Interactive Image Marker */}
-//       <ImageMarker
-//         src={previews[`${index}-${imgIndex}`]}
-//         markers={hotspotFields.map((point) => ({
-//           top: point.y,
-//           left: point.x,
-//         }))}
-//         onAddMarker={(marker) => {
-//           appendHotspot({
-//             x: Number(marker.left),
-//             y: Number(marker.top),
-//             note: "",
-//           });
-//         }}
-//       />
-
-//       {/* Hotspot Notes */}
-//       {hotspotFields.map((point, hIndex) => (
-//         <div key={point.id} className="flex gap-2 items-center">
-//           <input
-//             {...register(
-//               `steps.${index}.images.${imgIndex}.hotspotAnnotations.${hIndex}.note`
-//             )}
-//             placeholder="Hotspot note"
-//             defaultValue={point.note ?? ""}
-//             className="border rounded p-1"
-//           />
-//           <button
-//             type="button"
-//             className="text-red-500"
-//             onClick={() => removeHotspot(hIndex)}
-//           >
-//             ❌
-//           </button>
-//         </div>
-//       ))}
-
-//       {/* Caption & Alt fields */}
-//       <input
-//         {...register(`steps.${index}.images.${imgIndex}.caption` as const)}
-//         placeholder="Caption"
-//         defaultValue={img.caption ?? ""}
-//         className="border rounded p-1 w-full"
-//       />
-//       <input
-//         {...register(`steps.${index}.images.${imgIndex}.alt`)}
-//         placeholder="Alt"
-//         defaultValue={img.alt ?? ""}
-//         className="border rounded p-1 w-full"
-//       />
-//     </div>
-//   );
-// };
-
-// export default ImageMarkerForm;
-import {
-  useFieldArray,
-  type Control,
-  type UseFormRegister,
-} from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import ImageMarker from "react-image-marker";
 import type { GuideForm } from "./guideSchema";
 
-type ImageMarkerProps = {
-  previews: Record<string, string>;
-  index: number;
-  img: GuideForm["steps"][number]["images"][number];
+type Props = {
+  stepIndex: number;
   imgIndex: number;
-  register: UseFormRegister<GuideForm>;
-  control: Control<GuideForm>;
+  previewUrl?: string; // optional preview URL, provided by StepImage
 };
 
-const ImageMarkerForm = ({
-  previews,
-  index,
-  img,
-  imgIndex,
-  register,
-  control,
-}: ImageMarkerProps) => {
+const ImageMarkerForm = ({ stepIndex, imgIndex, previewUrl }: Props) => {
+  const { control, register } = useFormContext<GuideForm>();
+
   const {
     fields: hotspotFields,
     append: appendHotspot,
     remove: removeHotspot,
   } = useFieldArray({
     control,
-    name: `steps.${index}.images.${imgIndex}.hotspotAnnotations`,
+    name: `steps.${stepIndex}.images.${imgIndex}.hotspotAnnotations`,
   });
 
   return (
     <div className="space-y-2">
-      <ImageMarker
-        src={previews[`${index}-${imgIndex}`]}
-        markers={hotspotFields.map((point) => ({
-          top: point.y,
-          left: point.x,
-        }))}
-        onAddMarker={(marker) => {
-          appendHotspot({
-            x: Number(marker.left),
-            y: Number(marker.top),
-            note: "",
-          });
-        }}
-      />
+      {previewUrl ? (
+        <ImageMarker
+          src={previewUrl}
+          markers={hotspotFields.map((p) => ({ top: p.y, left: p.x }))}
+          onAddMarker={(marker) => {
+            appendHotspot({
+              x: Number(marker.left),
+              y: Number(marker.top),
+              note: "",
+            });
+          }}
+        />
+      ) : (
+        <div className="text-sm italic">Upload an image to add markers.</div>
+      )}
 
       {hotspotFields.map((point, hIndex) => (
         <div key={point.id} className="flex gap-2 items-center">
           <input
             {...register(
-              `steps.${index}.images.${imgIndex}.hotspotAnnotations.${hIndex}.note`
+              `steps.${stepIndex}.images.${imgIndex}.hotspotAnnotations.${hIndex}.note` as const
             )}
             placeholder="Hotspot note"
             defaultValue={point.note ?? ""}
@@ -163,15 +59,16 @@ const ImageMarkerForm = ({
       ))}
 
       <input
-        {...register(`steps.${index}.images.${imgIndex}.caption` as const)}
+        {...register(`steps.${stepIndex}.images.${imgIndex}.caption` as const)}
         placeholder="Caption"
-        defaultValue={img.caption ?? ""}
+        defaultValue=""
         className="border rounded p-1 w-full"
       />
+
       <input
-        {...register(`steps.${index}.images.${imgIndex}.alt`)}
-        placeholder="Alt"
-        defaultValue={img.alt ?? ""}
+        {...register(`steps.${stepIndex}.images.${imgIndex}.alt` as const)}
+        placeholder="Alt text"
+        defaultValue=""
         className="border rounded p-1 w-full"
       />
     </div>

@@ -1,170 +1,99 @@
-// import ImageMarkerForm from "./ImageMarkerForm";
-// import {
-//   Accordion,
-//   AccordionContent,
-//   AccordionItem,
-//   AccordionTrigger,
-// } from "@/components/ui/accordion";
-
-// import type { GuideForm } from "./guideSchema";
-// import type {
-//   FieldArrayWithId,
-//   UseFieldArrayRemove,
-//   Control,
-//   UseFormRegister,
-// } from "react-hook-form";
-
-// type StepImageProps = {
-//   imageFields: FieldArrayWithId<GuideForm, `steps.${number}.images`, "id">[];
-//   handleFileChange: (file: File, stepIndex: number, imgIndex: number) => void;
-//   previews: Record<string, string>;
-//   removeImage: UseFieldArrayRemove;
-//   idx: number;
-//   register: UseFormRegister<GuideForm>;
-//   control: Control<GuideForm>;
-// };
-
-// const StepImage = ({
-//   imageFields,
-//   handleFileChange,
-//   previews,
-//   removeImage,
-//   idx,
-//   control,
-//   register,
-// }: StepImageProps) => {
-//   return (
-//     <>
-//       {imageFields.map((img, imgIndex) => (
-//         <div key={img.id} className="flex flex-col gap-2 w-full">
-//           {/* File Input */}
-//           <input
-//             type="file"
-//             onChange={(e) =>
-//               e.target.files?.[0] &&
-//               handleFileChange(e.target.files[0], idx, imgIndex)
-//             }
-//           />
-
-//           {/* Preview + Marker Accordion */}
-//           {previews[`${idx}-${imgIndex}`] && (
-//             <Accordion
-//               type="single"
-//               collapsible
-//               className="w-full"
-//               defaultValue={`item-${imgIndex}`}
-//             >
-//               <AccordionItem value={`item-${imgIndex}`}>
-//                 <AccordionTrigger>{`Image ${imgIndex + 1}`}</AccordionTrigger>
-//                 <AccordionContent className="flex flex-col gap-4">
-//                   <ImageMarkerForm
-//                     previews={previews}
-//                     img={img}
-//                     index={idx}
-//                     imgIndex={imgIndex}
-//                     register={register}
-//                     control={control}
-//                   />
-//                 </AccordionContent>
-//               </AccordionItem>
-//             </Accordion>
-//           )}
-
-//           {/* Remove Button */}
-//           <button
-//             type="button"
-//             onClick={() => removeImage(imgIndex)}
-//             className="text-red-500 mt-2 self-start"
-//           >
-//             ❌ Remove
-//           </button>
-//         </div>
-//       ))}
-//     </>
-//   );
-// };
-
-// export default StepImage;
-import ImageMarkerForm from "./ImageMarkerForm";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-
+import { useState } from "react";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import type { GuideForm } from "./guideSchema";
-import type {
-  FieldArrayWithId,
-  UseFieldArrayRemove,
-  Control,
-  UseFormRegister,
-} from "react-hook-form";
+import ImageMarkerForm from "./ImageMarkerForm";
+import { Button } from "@/components/ui/button";
 
-type StepImageProps = {
-  imageFields: FieldArrayWithId<GuideForm, `steps.${number}.images`, "id">[];
-  handleFileChange: (file: File, stepIndex: number, imgIndex: number) => void;
-  previews: Record<string, string>;
-  removeImage: UseFieldArrayRemove;
-  idx: number;
-  register: UseFormRegister<GuideForm>;
-  control: Control<GuideForm>;
+type Props = {
+  stepIndex: number;
 };
 
-const StepImage = ({
-  imageFields,
-  handleFileChange,
-  previews,
-  removeImage,
-  idx,
-  control,
-  register,
-}: StepImageProps) => {
+const StepImage = ({ stepIndex }: Props) => {
+  const { control, setValue } = useFormContext<GuideForm>();
+
+  const {
+    fields: imageFields,
+    append: appendImage,
+    remove: removeImage,
+  } = useFieldArray({
+    control,
+    name: `steps.${stepIndex}.images`,
+  });
+
+  const [previews, setPreviews] = useState<Record<string, string>>({});
+
+  const handleFileChange = (file: File, imgIndex: number) => {
+    const url = URL.createObjectURL(file);
+    setPreviews((prev) => ({ ...prev, [`${stepIndex}-${imgIndex}`]: url }));
+
+    setValue(`steps.${stepIndex}.images.${imgIndex}.file`, file, {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+    setValue(`steps.${stepIndex}.images.${imgIndex}.url`, url, {
+      shouldDirty: true,
+      shouldValidate: false,
+    });
+  };
+
   return (
-    <>
+    <div className="space-y-2">
       {imageFields.map((img, imgIndex) => (
         <div key={img.id} className="flex flex-col gap-2 w-full">
           <input
             type="file"
+            accept="image/*"
             onChange={(e) =>
               e.target.files?.[0] &&
-              handleFileChange(e.target.files[0], idx, imgIndex)
+              handleFileChange(e.target.files[0], imgIndex)
             }
           />
 
-          {previews[`${idx}-${imgIndex}`] && (
-            <Accordion
-              type="single"
-              collapsible
-              className="w-full"
-              defaultValue={`item-${imgIndex}`}
-            >
-              <AccordionItem value={`item-${imgIndex}`}>
-                <AccordionTrigger>{`Image ${imgIndex + 1}`}</AccordionTrigger>
-                <AccordionContent className="flex flex-col gap-4">
-                  <ImageMarkerForm
-                    previews={previews}
-                    img={img}
-                    index={idx}
-                    imgIndex={imgIndex}
-                    register={register}
-                    control={control}
-                  />
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+          {previews[`${stepIndex}-${imgIndex}`] && (
+            <div>
+              <img
+                src={previews[`${stepIndex}-${imgIndex}`]}
+                alt={img.caption ?? `preview-${imgIndex}`}
+                className="max-w-xs rounded"
+              />
+            </div>
           )}
 
-          <button
-            type="button"
-            onClick={() => removeImage(imgIndex)}
-            className="text-red-500 mt-2 self-start"
-          >
-            ❌ Remove
-          </button>
+          <div className="space-y-2">
+            <ImageMarkerForm
+              stepIndex={stepIndex}
+              imgIndex={imgIndex}
+              previewUrl={previews[`${stepIndex}-${imgIndex}`]}
+            />
+          </div>
+
+          <div className="flex gap-2">
+            <Button
+              type="button"
+              onClick={() => removeImage(imgIndex)}
+              variant="destructive"
+            >
+              Remove Image
+            </Button>
+          </div>
         </div>
       ))}
-    </>
+
+      <Button
+        type="button"
+        onClick={() =>
+          appendImage({
+            url: "",
+            file: undefined,
+            caption: "",
+            alt: "",
+            hotspotAnnotations: [],
+          })
+        }
+      >
+        Add Image
+      </Button>
+    </div>
   );
 };
 

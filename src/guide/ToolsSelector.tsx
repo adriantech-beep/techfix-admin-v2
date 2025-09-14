@@ -7,13 +7,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { UseFormReturn } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import type { GuideForm } from "./guideSchema";
 
 type FieldConfig = {
   id: string;
   label: string;
 };
+
 const listOfTools: FieldConfig[] = [
   { id: "Type C cable", label: "Type C cable" },
   {
@@ -96,55 +97,52 @@ const listOfTools: FieldConfig[] = [
   },
 ];
 
-type ToolsSelectorProps = {
-  form: UseFormReturn<GuideForm>;
-};
+const ToolsSelector = () => {
+  const { control } = useFormContext<GuideForm>();
 
-const ToolsSelector = ({ form }: ToolsSelectorProps) => {
   return (
-    <FormField
-      control={form.control}
+    <FormField<GuideForm, "tools">
+      control={control}
       name="tools"
-      render={() => (
-        <FormItem>
-          <div className="mb-4">
-            <FormLabel className="text-base">Select Tools</FormLabel>
-            <FormDescription>Select the tools you want to add.</FormDescription>
-          </div>
-          {listOfTools.map((tool) => (
-            <FormField
-              key={tool.id}
-              control={form.control}
-              name="tools"
-              render={({ field }) => {
-                return (
-                  <FormItem
-                    key={tool.id}
-                    className="flex flex-row items-center gap-2"
-                  >
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value?.includes(tool.id)}
-                        onCheckedChange={(checked) => {
-                          return checked
-                            ? field.onChange([...field.value, tool.id])
-                            : field.onChange(
-                                field.value?.filter((id) => id !== tool.id)
-                              );
-                        }}
-                      />
-                    </FormControl>
-                    <FormLabel className="text-sm font-normal">
-                      {tool.label}
-                    </FormLabel>
-                  </FormItem>
-                );
-              }}
-            />
-          ))}
-          <FormMessage />
-        </FormItem>
-      )}
+      render={({ field }) => {
+        const value = field.value ?? [];
+
+        return (
+          <FormItem>
+            <div className="mb-4">
+              <FormLabel className="text-base">Select Tools</FormLabel>
+              <FormDescription>
+                Select the tools you want to add.
+              </FormDescription>
+            </div>
+
+            {listOfTools.map((tool) => (
+              <FormItem
+                key={tool.id}
+                className="flex flex-row items-center gap-2"
+              >
+                <FormControl>
+                  <Checkbox
+                    checked={value.includes(tool.id)}
+                    onCheckedChange={(checked) => {
+                      const updated = checked
+                        ? [...value, tool.id]
+                        : value.filter((id) => id !== tool.id);
+
+                      field.onChange(updated);
+                    }}
+                  />
+                </FormControl>
+                <FormLabel className="text-sm font-normal">
+                  {tool.label}
+                </FormLabel>
+              </FormItem>
+            ))}
+
+            <FormMessage />
+          </FormItem>
+        );
+      }}
     />
   );
 };
