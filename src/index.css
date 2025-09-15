@@ -118,3 +118,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+.color-gradient {
+  background: #39a8d4;
+  background: linear-gradient(
+    90deg,
+    rgba(57, 168, 212, 1) 0%,
+    rgba(87, 199, 133, 1) 100%,
+    rgba(145, 132, 33, 1) 100%
+  );
+}

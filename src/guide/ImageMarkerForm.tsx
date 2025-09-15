@@ -1,7 +1,7 @@
 import { useFieldArray, useFormContext } from "react-hook-form";
 import ImageMarker from "react-image-marker";
 import type { GuideForm } from "./guideSchema";
-
+import { Input } from "@/components/ui/input";
 type Props = {
   stepIndex: number;
   imgIndex: number;
@@ -39,38 +39,42 @@ const ImageMarkerForm = ({ stepIndex, imgIndex, previewUrl }: Props) => {
       )}
 
       {hotspotFields.map((point, hIndex) => (
-        <div key={point.id} className="flex gap-2 items-center">
-          <input
+        <div key={point.id} className="flex gap-2 items-center mt-2">
+          <Input
             {...register(
               `steps.${stepIndex}.images.${imgIndex}.hotspotAnnotations.${hIndex}.note` as const
             )}
-            placeholder="Hotspot note"
+            placeholder={`Hotspot note ${hIndex + 1}`}
             defaultValue={point.note ?? ""}
-            className="border rounded p-1"
+            className="w-full"
           />
           <button
             type="button"
             className="text-red-500"
             onClick={() => removeHotspot(hIndex)}
           >
-            ❌
+            Delete
           </button>
         </div>
       ))}
 
-      <input
-        {...register(`steps.${stepIndex}.images.${imgIndex}.caption` as const)}
-        placeholder="Caption"
-        defaultValue=""
-        className="border rounded p-1 w-full"
-      />
+      <div className="flex flex-col gap-2 mt-2">
+        <Input
+          {...register(
+            `steps.${stepIndex}.images.${imgIndex}.caption` as const
+          )}
+          placeholder="Caption"
+          defaultValue=""
+          className="border rounded p-1 w-full"
+        />
 
-      <input
-        {...register(`steps.${stepIndex}.images.${imgIndex}.alt` as const)}
-        placeholder="Alt text"
-        defaultValue=""
-        className="border rounded p-1 w-full"
-      />
+        <Input
+          {...register(`steps.${stepIndex}.images.${imgIndex}.alt` as const)}
+          placeholder="Alt text"
+          defaultValue=""
+          className="border rounded p-1 w-full"
+        />
+      </div>
     </div>
   );
 };

@@ -3,7 +3,8 @@ import { useFieldArray, useFormContext } from "react-hook-form";
 import type { GuideForm } from "./guideSchema";
 import ImageMarkerForm from "./ImageMarkerForm";
 import { Button } from "@/components/ui/button";
-
+import { Image } from "lucide-react";
+import { CloudUpload } from "lucide-react";
 type Props = {
   stepIndex: number;
 };
@@ -37,62 +38,71 @@ const StepImage = ({ stepIndex }: Props) => {
   };
 
   return (
-    <div className="space-y-2">
-      {imageFields.map((img, imgIndex) => (
-        <div key={img.id} className="flex flex-col gap-2 w-full">
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) =>
-              e.target.files?.[0] &&
-              handleFileChange(e.target.files[0], imgIndex)
-            }
-          />
-
-          {previews[`${stepIndex}-${imgIndex}`] && (
-            <div>
-              <img
-                src={previews[`${stepIndex}-${imgIndex}`]}
-                alt={img.caption ?? `preview-${imgIndex}`}
-                className="max-w-xs rounded"
-              />
-            </div>
-          )}
-
-          <div className="space-y-2">
-            <ImageMarkerForm
-              stepIndex={stepIndex}
-              imgIndex={imgIndex}
-              previewUrl={previews[`${stepIndex}-${imgIndex}`]}
-            />
-          </div>
-
-          <div className="flex gap-2">
-            <Button
+    <div className="flex flex-col gap-2 ">
+      <div className="grid grid-cols-1 gap-2">
+        {imageFields.map((img, imgIndex) => (
+          <div
+            key={img.id}
+            className="w-full relative flex flex-col bg-white/5 rounded-2xl border border-dashed border-gray-400 overflow-hidden shadow-md group"
+          >
+            <button
               type="button"
               onClick={() => removeImage(imgIndex)}
-              variant="destructive"
+              className="absolute top-3 right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 text-white rounded-full py-1 px-2 hover:bg-red-500 cursor-pointer"
             >
-              Remove Image
-            </Button>
-          </div>
-        </div>
-      ))}
+              ✕
+            </button>
 
-      <Button
-        type="button"
-        onClick={() =>
-          appendImage({
-            url: "",
-            file: undefined,
-            caption: "",
-            alt: "",
-            hotspotAnnotations: [],
-          })
-        }
-      >
-        Add Image
-      </Button>
+            <div className="h-40 flex flex-col items-center justify-center color-gradient p-4 text-center">
+              <CloudUpload className="w-12 h-12 text-gray-300 group-hover:text-white transition-colors" />
+              <input
+                id={`file-${stepIndex}-${imgIndex}`}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) =>
+                  e.target.files?.[0] &&
+                  handleFileChange(e.target.files[0], imgIndex)
+                }
+              />
+              <label
+                htmlFor={`file-${stepIndex}-${imgIndex}`}
+                className="mt-3 cursor-pointer px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium shadow-md hover:bg-indigo-500 transition-colors"
+              >
+                Upload Image
+              </label>
+            </div>
+
+            <div className="w-full p-4 bg-slate-50 border-t border-gray-200">
+              <ImageMarkerForm
+                stepIndex={stepIndex}
+                imgIndex={imgIndex}
+                previewUrl={previews[`${stepIndex}-${imgIndex}`]}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex justify-center">
+        <Button
+          type="button"
+          variant="outline"
+          className="flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-dashed border-indigo-400 text-indigo-600 hover:bg-indigo-50"
+          onClick={() =>
+            appendImage({
+              url: "",
+              file: undefined,
+              caption: "",
+              alt: "",
+              hotspotAnnotations: [],
+            })
+          }
+        >
+          <Image className="w-5 h-5" />
+          Add Image
+        </Button>
+      </div>
     </div>
   );
 };

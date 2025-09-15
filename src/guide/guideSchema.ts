@@ -25,6 +25,7 @@ export const guideSchema = z.object({
       z.object({
         title: z.string().optional(),
         bodyMarkdown: z.string().optional(),
+        actionType: z.string().optional(),
         images: z
           .array(
             z.object({
