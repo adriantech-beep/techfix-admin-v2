@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import ToolsNeededSelector from "./ToolsNeededSelector";
 const Steps = () => {
   const { control, register } = useFormContext<GuideForm>();
 
@@ -37,13 +38,16 @@ const Steps = () => {
       title: "",
       bodyMarkdown: "",
       actionType: "",
+      expectedOutcome: "",
+      warnings: "",
+      toolsNeeded: [],
       images: [],
     });
 
   return (
     <>
       {stepFields.map((step, stepIndex) => (
-        <Card className="w-full px-4 rounded-md">
+        <Card className="w-full px-4 rounded-md" key={stepIndex}>
           <div className="flex justify-between items-start p-2">
             <h3 className="font-semibold">Step {stepIndex + 1}</h3>
 
@@ -64,7 +68,7 @@ const Steps = () => {
               <AccordionTrigger>{`View step ${
                 stepIndex + 1
               } details`}</AccordionTrigger>
-              <AccordionContent className="flex flex-col gap-4 text-balance">
+              <AccordionContent className="flex flex-col gap-2 text-balance">
                 <Input
                   {...register(`steps.${stepIndex}.title` as const)}
                   placeholder="Step title"
@@ -75,6 +79,19 @@ const Steps = () => {
                   {...register(`steps.${stepIndex}.bodyMarkdown` as const)}
                   placeholder="Step description"
                   defaultValue={step.bodyMarkdown ?? ""}
+                  className="mb-2"
+                />
+                <Input
+                  {...register(`steps.${stepIndex}.expectedOutcome` as const)}
+                  placeholder="Expected outcome"
+                  defaultValue={step.expectedOutcome ?? ""}
+                  className="mb-2"
+                />
+
+                <Textarea
+                  {...register(`steps.${stepIndex}.warnings` as const)}
+                  placeholder="Warnings"
+                  defaultValue={step.warnings ?? ""}
                   className="mb-2"
                 />
                 <Controller
@@ -95,6 +112,8 @@ const Steps = () => {
                   )}
                 />
                 <StepImage stepIndex={stepIndex} />
+
+                <ToolsNeededSelector stepIndex={stepIndex} />
               </AccordionContent>
             </AccordionItem>
           </Accordion>

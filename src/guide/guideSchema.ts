@@ -26,6 +26,9 @@ export const guideSchema = z.object({
         title: z.string().optional(),
         bodyMarkdown: z.string().optional(),
         actionType: z.string().optional(),
+        expectedOutcome: z.string().optional(),
+        warnings: z.string().optional(),
+        toolsNeeded: z.array(z.string()).default([]),
         images: z
           .array(
             z.object({
@@ -50,5 +53,4 @@ export const guideSchema = z.object({
     .default([]),
 });
 
-// 🔥 THIS is now your single source of truth
 export type GuideForm = z.infer<typeof guideSchema>;

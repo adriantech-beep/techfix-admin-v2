@@ -5,6 +5,7 @@ import AdminLayout from "./components/AdminLayout";
 import Homepage from "./pages/Homepage";
 
 const queryClient = new QueryClient();
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>

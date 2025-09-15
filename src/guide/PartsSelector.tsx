@@ -166,7 +166,6 @@ const PartsSelector = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Device type selector */}
         <FormField
           control={control}
           name="deviceType"
@@ -189,7 +188,6 @@ const PartsSelector = () => {
           )}
         />
 
-        {/* Parts by category */}
         {deviceType &&
           Object.entries(listOfParts[deviceType] || {}).map(
             ([category, parts]) => (

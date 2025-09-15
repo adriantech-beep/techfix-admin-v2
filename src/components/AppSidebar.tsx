@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Sidebar, SidebarGroupLabel } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { CirclePlus } from "lucide-react";
+import GetGuides from "@/getGuides/GetGuides";
 
 const AppSidebar = () => {
   return (
@@ -20,6 +21,8 @@ const AppSidebar = () => {
       </Button>
 
       <SidebarGroupLabel>Guides</SidebarGroupLabel>
+
+      <GetGuides />
     </Sidebar>
   );
 };

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 type Props = {
   stepIndex: number;
   imgIndex: number;
-  previewUrl?: string; // optional preview URL, provided by StepImage
+  previewUrl?: string;
 };
 
 const ImageMarkerForm = ({ stepIndex, imgIndex, previewUrl }: Props) => {
