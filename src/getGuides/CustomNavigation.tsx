@@ -1,11 +1,9 @@
-import * as React from "react";
 import {
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
   NavigationMenuTrigger,
   NavigationMenuContent,
-  NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 
 import { Badge } from "@/components/ui/badge";
@@ -25,7 +23,7 @@ const CustomNavigationMenu = ({ guide }: GuideListProps) => {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="w-full flex gap-2">
+          <NavigationMenuTrigger>
             <span className="font-medium truncate">
               {brand || "Unknown Brand"}
             </span>

@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const guideSchema = z.object({
+  id: z.string().optional(),
   title: z.string().min(1, "Title is required"),
   deviceType: z.string().optional(),
   brand: z.string().optional(),
@@ -8,7 +9,7 @@ export const guideSchema = z.object({
   summary: z.string().optional(),
   estimatedTimeMinutes: z.number().optional(),
   author: z.string().min(1, "Author is required"),
-  difficulty: z.string().min(1, "Difficulty is required"),
+  difficulty: z.enum(["Easy", "Medium", "Hard"]).default("Easy"),
   tools: z.array(z.string()).default([]),
   parts: z
     .array(
@@ -25,7 +26,9 @@ export const guideSchema = z.object({
       z.object({
         title: z.string().optional(),
         bodyMarkdown: z.string().optional(),
-        actionType: z.string().optional(),
+        actionType: z
+          .enum(["instruction", "test", "measurement", "decision"])
+          .optional(),
         expectedOutcome: z.string().optional(),
         warnings: z.string().optional(),
         toolsNeeded: z.array(z.string()).default([]),
@@ -47,6 +50,7 @@ export const guideSchema = z.object({
               file: z.any().optional(),
             })
           )
+          .optional()
           .default([]),
       })
     )

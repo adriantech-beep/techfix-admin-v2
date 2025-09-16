@@ -37,7 +37,7 @@ const Steps = () => {
     appendStep({
       title: "",
       bodyMarkdown: "",
-      actionType: "",
+      actionType: undefined,
       expectedOutcome: "",
       warnings: "",
       toolsNeeded: [],

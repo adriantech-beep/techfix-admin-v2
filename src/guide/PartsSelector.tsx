@@ -126,7 +126,7 @@ type DeviceType = keyof typeof listOfParts;
 const PartsSelector = () => {
   const { control, watch, setValue } = useFormContext<GuideForm>();
 
-  const selectedParts = watch("parts") || [];
+  const selectedParts = watch("parts") ?? [];
   const deviceType = watch("deviceType") as DeviceType | "";
 
   const updatePart = (index: number, key: keyof Part, value: string) => {

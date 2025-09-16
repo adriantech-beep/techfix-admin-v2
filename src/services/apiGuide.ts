@@ -10,3 +10,8 @@ export const getGuides = async (): Promise<GuideForm[]> => {
     return [];
   }
 };
+
+export const createGuide = async (guide: GuideForm): Promise<GuideForm> => {
+  const { data } = await axiosInstance.post("/api/guides", guide);
+  return data;
+};

@@ -7,8 +7,11 @@ import SummaryInfo from "./SummaryInfo";
 import ToolsSelector from "./ToolsSelector";
 import PartsSelector from "./PartsSelector";
 import Steps from "./Steps-v2";
+import { useCreateGuide } from "./useCreateGuide";
+import { processSteps } from "./useProcessStep";
 
 const AddGuide = () => {
+  const { mutate: createGuide } = useCreateGuide();
   const form = useForm<GuideForm>({
     //TODO: mismatch on typescript
     resolver: zodResolver(guideSchema),
@@ -20,28 +23,39 @@ const AddGuide = () => {
       summary: "",
       estimatedTimeMinutes: undefined,
       author: "",
-      difficulty: "",
+      difficulty: undefined,
       tools: [],
       parts: [],
       steps: [],
     },
   });
+  const { handleSubmit, reset, formState } = form;
 
-  const onSubmit: SubmitHandler<GuideForm> = (values) => {
-    console.log("Form Submitted:", values);
+  const onSubmit: SubmitHandler<GuideForm> = async (values) => {
+    const processedSteps = await processSteps(values.steps);
+
+    const payload = {
+      ...values,
+      steps: processedSteps,
+    };
+
+    createGuide(payload);
+    reset();
   };
 
   return (
     //TODO: mismatch on typescript
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <DeviceInfo />
         <SummaryInfo />
         <ToolsSelector />
         <PartsSelector />
         <Steps />
 
-        <Button type="submit">Create Guide</Button>
+        <Button type="submit" disabled={!formState.isValid}>
+          Create Guide
+        </Button>
       </form>
     </FormProvider>
   );

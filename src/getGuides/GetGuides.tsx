@@ -9,7 +9,6 @@ const GetGuides = () => {
   return (
     <div className="flex flex-col">
       <div className="mt-4">
-        <h3 className="text-md font-sans ">Guides</h3>
         {isLoading ? (
           <div>
             {Array.from({ length: 8 }).map((_, i) => (
@@ -17,7 +16,7 @@ const GetGuides = () => {
             ))}
           </div>
         ) : (
-          <div>
+          <div className=" h-full flex flex-col gap-2">
             {guides?.map((guide) => (
               <GuideList key={guide.id} guide={guide} />
             ))}
