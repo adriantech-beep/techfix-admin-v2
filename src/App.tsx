@@ -3,6 +3,7 @@ import "./index.css";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import AdminLayout from "./components/AdminLayout";
 import Homepage from "./pages/Homepage";
+import ViewGuidepage from "./pages/ViewGuidepage";
 
 const queryClient = new QueryClient();
 
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route element={<AdminLayout />}>
             <Route path="/homepage" element={<Homepage />} />
+            <Route path="/view-guide" element={<ViewGuidepage />} />
           </Route>
           <Route index element={<Navigate to="/homepage" replace />} />
         </Routes>

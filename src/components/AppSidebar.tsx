@@ -4,8 +4,10 @@ import { Sidebar, SidebarGroupLabel } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { CirclePlus } from "lucide-react";
 import GetGuides from "@/getGuides/GetGuides";
+import { useNavigate } from "react-router-dom";
 
 const AppSidebar = () => {
+  const navigate = useNavigate();
   return (
     <Sidebar className="mt-4 px-2">
       <div className="relative flex items-center">
@@ -16,7 +18,11 @@ const AppSidebar = () => {
           className="pl-8 pr-16 rounded-full focus:bg-gray-100 focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:outline-none  font-sans text-muted-foreground"
         />
       </div>
-      <Button variant="outline" className="rounded-xl mt-2">
+      <Button
+        variant="outline"
+        className="rounded-xl mt-2"
+        onClick={() => navigate("/homepage")}
+      >
         <CirclePlus /> <span>Add new guide</span>
       </Button>
 

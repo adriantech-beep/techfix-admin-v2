@@ -97,12 +97,12 @@ function Button({ children, icon, onClick, danger }: MenuButtonProps) {
   const ctx = useContext(MenusContext);
   if (!ctx) throw new Error("Button must be used within Menus");
 
-  const { close } = ctx;
+  // const { close } = ctx;
 
-  function handleClick() {
-    onClick?.();
-    close();
-  }
+  // function handleClick() {
+  //   onClick?.();
+  //   close();
+  // }
 
   return (
     <li
@@ -113,7 +113,7 @@ function Button({ children, icon, onClick, danger }: MenuButtonProps) {
       }`}
     >
       <button
-        onClick={handleClick}
+        onClick={onClick}
         className="flex items-center gap-2 text-left p-2"
       >
         {icon}

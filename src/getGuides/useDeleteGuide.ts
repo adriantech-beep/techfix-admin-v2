@@ -1,16 +1,17 @@
-import { createGuide } from "@/services/apiGuide";
+// hooks/useDeleteGuide.ts
+import { deleteGuide } from "@/services/apiGuide";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
 import { toast } from "sonner";
+import type { AxiosError } from "axios";
 
-export const useCreateGuide = () => {
+export const useDeleteGuide = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: createGuide,
+    mutationFn: deleteGuide,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["guides"] });
-      toast("Guide has been created");
+      toast("Guide successfully deleted");
     },
     onError: (err: unknown) => {
       const error = err as AxiosError<{ message?: string }>;
@@ -18,7 +19,7 @@ export const useCreateGuide = () => {
       if (error.response?.status === 422) {
         console.log(error.response.data?.message);
       } else {
-        toast("Creating guide unsuccessfull");
+        toast("Deleting guide unsuccessfull");
       }
     },
   });

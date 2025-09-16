@@ -15,3 +15,9 @@ export const createGuide = async (guide: GuideForm): Promise<GuideForm> => {
   const { data } = await axiosInstance.post("/api/guides", guide);
   return data;
 };
+
+// services/apiGuide.ts
+export const deleteGuide = async (id: string): Promise<{ message: string }> => {
+  const { data } = await axiosInstance.delete(`/api/guides/${id}`);
+  return data;
+};
