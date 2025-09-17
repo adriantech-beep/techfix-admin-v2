@@ -63,9 +63,15 @@ const CustomNavigationMenu = ({ guide }: GuideListProps) => {
                     >
                       View Details
                     </Menus.Button>
-                    <Menus.Button icon={<CiEdit />}>Edit</Menus.Button>
+                    <Menus.Button
+                      icon={<CiEdit />}
+                      onClick={() =>
+                        navigate("/edit-guide", { state: { guide } })
+                      }
+                    >
+                      Edit
+                    </Menus.Button>
 
-                    {/* Wrap Delete in AlertDialog */}
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Menus.Button icon={<MdDeleteOutline />} danger>

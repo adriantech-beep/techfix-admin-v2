@@ -121,7 +121,11 @@ const Steps = () => {
       ))}
 
       <div className="flex gap-2">
-        <Button type="button" onClick={onAddStep}>
+        <Button
+          className="rounded-full bg-purple-700"
+          type="button"
+          onClick={onAddStep}
+        >
           Add Step
         </Button>
       </div>

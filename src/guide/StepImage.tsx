@@ -88,7 +88,7 @@ const StepImage = ({ stepIndex }: Props) => {
         <Button
           type="button"
           variant="outline"
-          className="flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-dashed border-indigo-400 text-indigo-600 hover:bg-indigo-50"
+          className="flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-dashed border-purple-600 text-indigo-600 hover:bg-indigo-50"
           onClick={() =>
             appendImage({
               url: "",

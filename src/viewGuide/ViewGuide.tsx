@@ -11,6 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import ViewImage from "./ViewImage";
 const ViewGuide = () => {
   const { state } = useLocation();
   const guide = state?.guide as GuideForm;
@@ -139,26 +140,7 @@ const ViewGuide = () => {
 
                   <Separator />
 
-                  {step.images.length > 0 && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {step.images.map((img, i) => (
-                        <figure key={i} className="space-y-1">
-                          {img.url && (
-                            <img
-                              src={img.url}
-                              alt={img.alt || ""}
-                              className="rounded-md border"
-                            />
-                          )}
-                          {img.caption && (
-                            <figcaption className="text-sm text-muted-foreground">
-                              {img.caption}
-                            </figcaption>
-                          )}
-                        </figure>
-                      ))}
-                    </div>
-                  )}
+                  {step.images.length > 0 && <ViewImage step={step} />}
                 </div>
               </AccordionContent>
             </AccordionItem>

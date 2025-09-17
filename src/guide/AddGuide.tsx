@@ -53,7 +53,11 @@ const AddGuide = () => {
         <PartsSelector />
         <Steps />
 
-        <Button type="submit" disabled={!formState.isValid}>
+        <Button
+          className="rounded-full"
+          type="submit"
+          disabled={!formState.isValid}
+        >
           Create Guide
         </Button>
       </form>

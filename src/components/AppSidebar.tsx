@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { CirclePlus } from "lucide-react";
 import GetGuides from "@/getGuides/GetGuides";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const AppSidebar = () => {
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
   return (
     <Sidebar className="mt-4 px-2">
       <div className="relative flex items-center">
@@ -15,7 +17,9 @@ const AppSidebar = () => {
         <Input
           type="search"
           placeholder="Search"
-          className="pl-8 pr-16 rounded-full focus:bg-gray-100 focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:outline-none  font-sans text-muted-foreground"
+          className="pl-8 pr-16 rounded-full focus:bg-gray-100 focus-visible:ring-1 focus-visible:ring-blue-500 focus-visible:outline-none font-sans text-muted-foreground"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
       </div>
       <Button
@@ -28,7 +32,7 @@ const AppSidebar = () => {
 
       <SidebarGroupLabel>Guides</SidebarGroupLabel>
 
-      <GetGuides />
+      <GetGuides search={search} />
     </Sidebar>
   );
 };
