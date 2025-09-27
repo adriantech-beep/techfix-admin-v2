@@ -17,8 +17,8 @@ const GetGuides = ({ search }: { search: string }) => {
           </div>
         ) : (
           <div className=" h-full flex flex-col gap-2">
-            {guides?.map((guide: GuideForm) => (
-              <GuideList key={guide.id} guide={guide} />
+            {guides?.map((guide: GuideForm, index: number) => (
+              <GuideList key={index} guide={guide} />
             ))}
           </div>
         )}

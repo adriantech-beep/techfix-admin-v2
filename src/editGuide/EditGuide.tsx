@@ -57,7 +57,7 @@ const EditGuide = () => {
     <FormProvider {...form}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Carousel className="w-full max-w-5xl mx-auto">
-          <CarouselContent className="h-[600px]">
+          <CarouselContent className="h-[650px] max-h-5xl">
             <CarouselItem>
               <Card className="h-full flex flex-col">
                 <CardHeader>
@@ -110,7 +110,7 @@ const EditGuide = () => {
           <CarouselNext className="-right-12" />
         </Carousel>
 
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-end gap-2 p-3 w-full max-w-5xl mx-auto">
           <Button
             type="button"
             variant="secondary"

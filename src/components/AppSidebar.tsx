@@ -6,12 +6,13 @@ import { CirclePlus } from "lucide-react";
 import GetGuides from "@/getGuides/GetGuides";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import LogOut from "@/logout/Logout";
 
 const AppSidebar = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   return (
-    <Sidebar className="mt-4 px-2">
+    <Sidebar className="mt-4 px-2 flex flex-col h-full py-4">
       <div className="relative flex items-center">
         <Search className="absolute left-2 h-4 w-4 text-muted-foreground" />
         <Input
@@ -33,6 +34,8 @@ const AppSidebar = () => {
       <SidebarGroupLabel>Guides</SidebarGroupLabel>
 
       <GetGuides search={search} />
+
+      <LogOut />
     </Sidebar>
   );
 };

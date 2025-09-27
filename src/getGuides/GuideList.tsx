@@ -6,7 +6,8 @@ interface GuideListProps {
 }
 
 const GuideList = ({ guide }: GuideListProps) => {
-  if (!guide) return <p>No guides to show</p>;
+  if (!guide)
+    return <p className="font-large text-gray-700">No guides to show</p>;
   return <CustomNavigationMenu guide={guide} />;
 };
 

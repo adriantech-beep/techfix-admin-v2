@@ -60,7 +60,7 @@ function Toggle({ id }: { id: string }) {
 
   return (
     <button data-toggle onClick={handleClick}>
-      <Settings />
+      <Settings className="cursor-pointer hover:text-gray-500" />
     </button>
   );
 }

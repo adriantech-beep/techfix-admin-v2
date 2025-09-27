@@ -72,6 +72,7 @@ const CustomNavigationMenu = ({ guide }: GuideListProps) => {
                       Edit
                     </Menus.Button>
 
+                    {/* FIXME:  Cant move this to another component due to the Menus context used*/}
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Menus.Button icon={<MdDeleteOutline />} danger>
@@ -85,7 +86,7 @@ const CustomNavigationMenu = ({ guide }: GuideListProps) => {
                           </AlertDialogTitle>
                           <AlertDialogDescription>
                             This action cannot be undone. This will permanently
-                            delete{" "}
+                            delete
                             <span className="font-semibold">{title}</span> from
                             your guides.
                           </AlertDialogDescription>
