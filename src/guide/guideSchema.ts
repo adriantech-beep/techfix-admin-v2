@@ -1,4 +1,3 @@
-// src/guide/guideSchema.ts
 import { z } from "zod";
 
 export const guideSchema = z.object({

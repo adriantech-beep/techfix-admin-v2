@@ -15,15 +15,9 @@ const AddGuide = () => {
   const form = useForm<GuideForm>({
     resolver: zodResolver(guideSchema),
     defaultValues: {
-      _id: "",
       title: "",
-      deviceType: "",
-      brand: "",
-      model: "",
-      summary: "",
-      estimatedTimeMinutes: undefined,
-      difficulty: "Easy",
       author: "",
+      difficulty: "Easy",
       tools: [],
       parts: [],
       steps: [],
