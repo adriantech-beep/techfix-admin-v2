@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
-import type { ReactNode, MouseEvent } from "react";
+import type { ReactNode } from "react";
+import type { MouseEvent } from "react";
 import { createPortal } from "react-dom";
 import { Settings } from "lucide-react";
 import { useOutsideClick } from "@/hooks/use-outside-click";
