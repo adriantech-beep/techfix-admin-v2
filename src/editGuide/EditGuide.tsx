@@ -26,7 +26,7 @@ const EditGuide = () => {
   const { brand, model, title } = guide;
 
   const form = useForm<GuideForm>({
-    resolver: zodResolver(guideSchema),
+    resolver: zodResolver(guideSchema.partial()),
     defaultValues: guide,
   });
 

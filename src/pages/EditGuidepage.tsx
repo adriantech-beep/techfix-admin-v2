@@ -1,11 +1,7 @@
 import EditGuide from "@/editGuide/EditGuide";
 
 const EditGuidepage = () => {
-  return (
-    // <div className="w-2xl h-screen">
-    <EditGuide />
-    // </div>
-  );
+  return <EditGuide />;
 };
 
 export default EditGuidepage;
