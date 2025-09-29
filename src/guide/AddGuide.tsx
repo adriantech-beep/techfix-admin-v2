@@ -15,6 +15,7 @@ const AddGuide = () => {
   const form = useForm<GuideForm>({
     resolver: zodResolver(guideSchema),
     defaultValues: {
+      _id: "",
       title: "",
       deviceType: "",
       brand: "",

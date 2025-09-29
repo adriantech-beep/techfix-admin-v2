@@ -2,8 +2,8 @@ import React, {
   createContext,
   useContext,
   useState,
-  ReactNode,
-  MouseEvent,
+  type ReactNode,
+  type MouseEvent,
 } from "react";
 import { createPortal } from "react-dom";
 import { Settings } from "lucide-react";
@@ -55,7 +55,7 @@ function Toggle({ id }: { id: string }) {
       y: rect.bottom + 8,
     });
 
-    openId === id ? close() : open(id);
+    return openId === id ? close() : open(id);
   }
 
   return (

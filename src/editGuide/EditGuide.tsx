@@ -25,8 +25,6 @@ const EditGuide = () => {
   const guide = state?.guide as GuideForm;
   const { brand, model, title } = guide;
 
-  console.log(guide);
-
   const form = useForm<GuideForm>({
     resolver: zodResolver(guideSchema),
     defaultValues: guide,
@@ -36,9 +34,9 @@ const EditGuide = () => {
   const { mutate: updateGuide, isPending } = useUpdateGuide();
 
   const onSubmit = (data: Partial<GuideForm>) => {
-    if (!guide?.id) return;
+    if (!guide?._id) return;
     updateGuide(
-      { id: guide.id, data },
+      { id: guide._id, data },
       {
         onSuccess: () => {
           navigate(`/view-guide`, { state: { guide: data } });
