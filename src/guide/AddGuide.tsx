@@ -23,7 +23,6 @@ const AddGuide = () => {
       summary: "",
       estimatedTimeMinutes: undefined,
       author: "",
-      difficulty: "Easy",
       tools: [],
       parts: [],
       steps: [],

@@ -9,7 +9,7 @@ export const guideSchema = z.object({
   summary: z.string().optional(),
   estimatedTimeMinutes: z.number().optional(),
   author: z.string().min(1, "Author is required"),
-  difficulty: z.enum(["Easy", "Medium", "Hard"]).optional(),
+  difficulty: z.enum(["Easy", "Medium", "Hard"]).default("Easy"),
   tools: z.array(z.string()).default([]),
   parts: z
     .array(
