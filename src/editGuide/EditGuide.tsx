@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { editGuideSchema, type EditGuideForm } from "@/guide/guideSchema";
+import { guideSchema, type GuideForm } from "@/guide/guideSchema";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DeviceInfo from "@/guide/DeviceInfo";
@@ -22,18 +22,18 @@ import { useUpdateGuide } from "./useUpdateGuide";
 const EditGuide = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const guide = state?.guide as EditGuideForm;
+  const guide = state?.guide as GuideForm;
   const { brand, model, title } = guide;
 
-  const form = useForm<EditGuideForm>({
-    resolver: zodResolver(editGuideSchema),
+  const form = useForm<GuideForm>({
+    resolver: zodResolver(guideSchema),
     defaultValues: guide,
   });
 
   const { handleSubmit } = form;
   const { mutate: updateGuide, isPending } = useUpdateGuide();
 
-  const onSubmit = (data: Partial<EditGuideForm>) => {
+  const onSubmit = (data: Partial<GuideForm>) => {
     if (!guide?._id) return;
     updateGuide(
       { id: guide._id, data },

@@ -9,7 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { CiEdit, CiViewList } from "react-icons/ci";
 import { MdDeleteOutline } from "react-icons/md";
-import type { AddGuideForm } from "@/guide/guideSchema";
+import type { GuideForm } from "@/guide/guideSchema";
 import Menus from "@/components/Menus";
 import { useDeleteGuide } from "./useDeleteGuide";
 
@@ -27,7 +27,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 interface GuideListProps {
-  guide: AddGuideForm;
+  guide: GuideForm;
 }
 
 const CustomNavigationMenu = ({ guide }: GuideListProps) => {

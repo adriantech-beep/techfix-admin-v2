@@ -1,15 +1,15 @@
 import { z } from "zod";
 
-export const baseGuideSchema = z.object({
+export const guideSchema = z.object({
   _id: z.string().optional(),
-  title: z.string().optional().default(""),
+  title: z.string().min(1, "Title is required"),
   deviceType: z.string().optional(),
   brand: z.string().optional(),
   model: z.string().optional(),
   summary: z.string().optional(),
   estimatedTimeMinutes: z.number().optional(),
-  author: z.string().optional().default(""),
-  difficulty: z.enum(["Easy", "Medium", "Hard"]).optional().default("Easy"),
+  author: z.string().min(1, "Author is required"),
+  difficulty: z.enum(["Easy", "Medium", "Hard"]).default("Easy"),
   tools: z.array(z.string()).default([]),
   parts: z
     .array(
@@ -50,19 +50,11 @@ export const baseGuideSchema = z.object({
               file: z.any().optional(),
             })
           )
+          .optional()
           .default([]),
       })
     )
     .default([]),
 });
 
-export const addGuideSchema = baseGuideSchema.extend({
-  title: z.string().min(1, "Title is required"),
-  author: z.string().min(1, "Author is required"),
-  difficulty: z.enum(["Easy", "Medium", "Hard"]),
-});
-
-export const editGuideSchema = baseGuideSchema.partial();
-
-export type AddGuideForm = z.infer<typeof addGuideSchema>;
-export type EditGuideForm = z.infer<typeof editGuideSchema>;
+export type GuideForm = z.infer<typeof guideSchema>;

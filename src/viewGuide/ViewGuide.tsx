@@ -1,3 +1,4 @@
+import type { GuideForm } from "@/guide/guideSchema";
 import { useLocation } from "react-router-dom";
 
 import { Badge } from "@/components/ui/badge";
@@ -11,10 +12,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import ViewImage from "./ViewImage";
-import type { AddGuideForm } from "@/guide/guideSchema";
 const ViewGuide = () => {
   const { state } = useLocation();
-  const guide = state?.guide as AddGuideForm;
+  const guide = state?.guide as GuideForm;
 
   if (!guide) return <div>No guide data available.</div>;
 
