@@ -1,15 +1,20 @@
+// src/guide/guideSchema.ts
 import { z } from "zod";
 
 export const guideSchema = z.object({
   _id: z.string().optional(),
+
   title: z.string().min(1, "Title is required"),
+  author: z.string().min(1, "Author is required"),
+
   deviceType: z.string().optional(),
   brand: z.string().optional(),
   model: z.string().optional(),
   summary: z.string().optional(),
   estimatedTimeMinutes: z.number().optional(),
-  author: z.string().min(1, "Author is required"),
-  difficulty: z.string("").optional(),
+
+  difficulty: z.enum(["Easy", "Medium", "Hard"]).default("Easy"),
+
   tools: z.array(z.string()).default([]),
   parts: z
     .array(
@@ -21,6 +26,7 @@ export const guideSchema = z.object({
       })
     )
     .default([]),
+
   steps: z
     .array(
       z.object({
@@ -50,7 +56,6 @@ export const guideSchema = z.object({
               file: z.any().optional(),
             })
           )
-          .optional()
           .default([]),
       })
     )

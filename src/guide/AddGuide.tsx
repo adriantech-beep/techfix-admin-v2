@@ -22,7 +22,7 @@ const AddGuide = () => {
       model: "",
       summary: "",
       estimatedTimeMinutes: undefined,
-      difficulty: "",
+      difficulty: "Easy",
       author: "",
       tools: [],
       parts: [],
