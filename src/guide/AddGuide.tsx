@@ -1,4 +1,9 @@
-import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
+import {
+  FormProvider,
+  useForm,
+  type Resolver,
+  type SubmitHandler,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { guideSchema, type GuideForm } from "./guideSchema";
@@ -12,8 +17,10 @@ import Steps from "./Steps-v2";
 
 const AddGuide = () => {
   const { mutate: createGuide } = useCreateGuide();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const resolver = zodResolver(guideSchema) as unknown as Resolver<any, any>;
   const form = useForm<GuideForm>({
-    resolver: zodResolver(guideSchema),
+    resolver,
     defaultValues: {
       title: "",
       deviceType: "",
