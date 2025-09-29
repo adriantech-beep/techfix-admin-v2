@@ -11,8 +11,8 @@ const AdminLayout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
+      <SidebarTrigger />
       <main className="w-full p-4">
-        <SidebarTrigger />
         <Outlet />
       </main>
     </SidebarProvider>

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { LogOutIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -13,9 +13,9 @@ const LogOut = () => {
   };
 
   return (
-    <Button onClick={handleLogout} className="mt-auto mb-2 rounded-full">
-      Logout
-    </Button>
+    <p onClick={handleLogout} className="flex items-center gap-4">
+      Logout <LogOutIcon />
+    </p>
   );
 };
 

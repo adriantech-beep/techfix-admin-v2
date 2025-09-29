@@ -1,4 +1,3 @@
-// import { StrictMode } from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { createRoot } from "react-dom/client";
 import "./index.css";

@@ -32,7 +32,7 @@ interface GuideListProps {
 
 const CustomNavigationMenu = ({ guide }: GuideListProps) => {
   const { mutate: deleteGuide } = useDeleteGuide();
-  const { id: guideId, deviceType, title, brand, model } = guide;
+  const { _id: guideId, deviceType, title, brand, model } = guide;
   const navigate = useNavigate();
 
   return (
@@ -49,7 +49,7 @@ const CustomNavigationMenu = ({ guide }: GuideListProps) => {
             </Badge>
           </NavigationMenuTrigger>
 
-          <NavigationMenuContent>
+          <NavigationMenuContent className="z-50">
             <div className="w-64 p-2 rounded-md shadow bg-background flex flex-col gap-2">
               <Menus>
                 <Menus.Menu>

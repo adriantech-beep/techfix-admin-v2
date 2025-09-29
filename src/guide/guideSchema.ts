@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const guideSchema = z.object({
-  id: z.string().optional(),
+  _id: z.string().optional(),
   title: z.string().min(1, "Title is required"),
   deviceType: z.string().optional(),
   brand: z.string().optional(),
