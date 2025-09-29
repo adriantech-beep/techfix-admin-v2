@@ -1,8 +1,8 @@
-import type { GuideForm } from "@/guide/guideSchema";
+import type { AddGuideForm } from "@/guide/guideSchema";
 import CustomNavigationMenu from "./CustomNavigation";
 
 interface GuideListProps {
-  guide: GuideForm;
+  guide: AddGuideForm;
 }
 
 const GuideList = ({ guide }: GuideListProps) => {

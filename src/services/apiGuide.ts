@@ -1,4 +1,4 @@
-import type { GuideForm } from "@/guide/guideSchema";
+import type { AddGuideForm } from "@/guide/guideSchema";
 import axiosInstance from "./axiosInstance";
 
 export const getGuides = async (search?: string) => {
@@ -8,7 +8,9 @@ export const getGuides = async (search?: string) => {
   return res.data;
 };
 
-export const createGuide = async (guide: GuideForm): Promise<GuideForm> => {
+export const createGuide = async (
+  guide: AddGuideForm
+): Promise<AddGuideForm> => {
   const { data } = await axiosInstance.post("/api/guides", guide);
   return data;
 };
@@ -20,8 +22,8 @@ export const deleteGuide = async (id: string): Promise<{ message: string }> => {
 
 export const updateGuide = async (
   id: string,
-  guide: Partial<GuideForm>
-): Promise<GuideForm> => {
+  guide: Partial<AddGuideForm>
+): Promise<AddGuideForm> => {
   const { data } = await axiosInstance.put(`/api/guides/${id}`, guide);
   return data;
 };

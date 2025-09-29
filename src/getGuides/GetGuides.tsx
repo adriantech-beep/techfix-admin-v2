@@ -1,7 +1,7 @@
 import Skeleton from "@/components/Skeleton";
 import { useGetGuides } from "./useGetGuides";
 import GuideList from "./GuideList";
-import type { GuideForm } from "@/guide/guideSchema";
+import type { AddGuideForm } from "@/guide/guideSchema";
 
 const GetGuides = ({ search }: { search: string }) => {
   const { data: guides, isPending } = useGetGuides(search);
@@ -17,7 +17,7 @@ const GetGuides = ({ search }: { search: string }) => {
           </div>
         ) : (
           <div className=" h-full flex flex-col gap-2">
-            {guides?.map((guide: GuideForm, index: number) => (
+            {guides?.map((guide: AddGuideForm, index: number) => (
               <GuideList key={index} guide={guide} />
             ))}
           </div>

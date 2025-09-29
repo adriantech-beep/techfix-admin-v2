@@ -1,7 +1,7 @@
 import { FormProvider, useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { guideSchema, type GuideForm } from "./guideSchema";
+import { addGuideSchema, type AddGuideForm } from "./guideSchema";
 import { useCreateGuide } from "./useCreateGuide";
 import { processSteps } from "./useProcessStep";
 import DeviceInfo from "./DeviceInfo";
@@ -12,8 +12,8 @@ import Steps from "./Steps-v2";
 
 const AddGuide = () => {
   const { mutate: createGuide } = useCreateGuide();
-  const form = useForm<GuideForm>({
-    resolver: zodResolver(guideSchema),
+  const form = useForm<AddGuideForm>({
+    resolver: zodResolver(addGuideSchema),
     defaultValues: {
       _id: "",
       title: "",
@@ -31,7 +31,7 @@ const AddGuide = () => {
   });
   const { handleSubmit, reset, formState } = form;
 
-  const onSubmit: SubmitHandler<GuideForm> = async (values) => {
+  const onSubmit: SubmitHandler<AddGuideForm> = async (values) => {
     const processedSteps = await processSteps(values.steps);
 
     const payload = {

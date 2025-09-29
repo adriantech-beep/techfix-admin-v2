@@ -1,4 +1,4 @@
-import type { GuideForm } from "@/guide/guideSchema";
+import type { EditGuideForm } from "@/guide/guideSchema";
 import { updateGuide } from "@/services/apiGuide";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 type UpdateGuidePayload = {
   id: string;
-  data: Partial<GuideForm>;
+  data: Partial<EditGuideForm>;
 };
 
 export const useUpdateGuide = () => {
