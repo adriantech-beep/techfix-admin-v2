@@ -83,7 +83,9 @@ const SummaryInfo = () => {
                     {type === "select" ? (
                       <Select
                         onValueChange={field.onChange}
-                        value={(field.value as string | undefined) ?? ""}
+                        value={
+                          typeof field.value === "string" ? field.value : ""
+                        }
                       >
                         <SelectTrigger className="w-[180px]">
                           <SelectValue placeholder={placeholder} />
