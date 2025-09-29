@@ -27,7 +27,13 @@ const EditGuide = () => {
 
   const form = useForm<GuideForm>({
     resolver: zodResolver(guideSchema),
-    defaultValues: guide ?? {},
+    defaultValues: {
+      ...guide,
+      difficulty: guide?.difficulty ?? "Easy",
+      tools: guide?.tools ?? [],
+      parts: guide?.parts ?? [],
+      steps: guide?.steps ?? [],
+    },
   });
 
   const { handleSubmit } = form;
