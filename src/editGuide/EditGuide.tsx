@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, type Resolver } from "react-hook-form";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { guideSchema, type GuideForm } from "@/guide/guideSchema";
@@ -24,9 +24,10 @@ const EditGuide = () => {
   const { state } = useLocation();
   const guide = state?.guide as GuideForm;
   const { brand, model, title } = guide;
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const resolver = zodResolver(guideSchema) as unknown as Resolver<any, any>;
   const form = useForm<GuideForm>({
-    resolver: zodResolver(guideSchema),
+    resolver,
     defaultValues: {
       ...guide,
       difficulty: guide?.difficulty ?? "Easy",
