@@ -14,6 +14,8 @@ import SummaryInfo from "./SummaryInfo";
 import ToolsSelector from "./ToolsSelector";
 import PartsSelector from "./PartsSelector";
 import Steps from "./Steps-v2";
+import Symptom from "./Symptom";
+import { processSymptom } from "./useProcessSymptom";
 
 const AddGuide = () => {
   const { mutate: createGuide } = useCreateGuide();
@@ -30,6 +32,7 @@ const AddGuide = () => {
       estimatedTimeMinutes: undefined,
       difficulty: "Easy",
       author: "",
+      symptom: { description: "", images: [] },
       tools: [],
       parts: [],
       steps: [],
@@ -39,10 +42,11 @@ const AddGuide = () => {
 
   const onSubmit: SubmitHandler<GuideForm> = async (values) => {
     const processedSteps = await processSteps(values.steps);
-
+    const processedSymptom = await processSymptom(values.symptom);
     const payload = {
       ...values,
       steps: processedSteps,
+      symptom: processedSymptom,
     };
 
     createGuide(payload);
@@ -54,6 +58,7 @@ const AddGuide = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <DeviceInfo />
         <SummaryInfo />
+        <Symptom />
         <ToolsSelector />
         <PartsSelector />
         <Steps />

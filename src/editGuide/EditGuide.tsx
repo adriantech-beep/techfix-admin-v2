@@ -18,6 +18,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useUpdateGuide } from "./useUpdateGuide";
+import Symptom from "@/guide/Symptom";
 
 const EditGuide = () => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const EditGuide = () => {
     defaultValues: {
       ...guide,
       difficulty: guide?.difficulty ?? "Easy",
+      symptom: guide?.symptom ?? {},
       tools: guide?.tools ?? [],
       parts: guide?.parts ?? [],
       steps: guide?.steps ?? [],
@@ -73,6 +75,7 @@ const EditGuide = () => {
                 <CardContent className="flex-1 space-y-6 overflow-y-auto">
                   <DeviceInfo />
                   <SummaryInfo />
+                  <Symptom />
                 </CardContent>
               </Card>
             </CarouselItem>

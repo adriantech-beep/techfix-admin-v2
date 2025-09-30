@@ -64,6 +64,18 @@ const ViewGuide = () => {
           </CardContent>
         </Card>
 
+        <Card>
+          <CardHeader>
+            <CardTitle>Symptom</CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            {guide.symptom.images.map((img, idx) => (
+              <img key={idx} src={img.url} />
+            ))}
+          </CardContent>
+        </Card>
+
         <Card className="md:col-span-2">
           <CardHeader>
             <CardTitle>Parts Required</CardTitle>

@@ -23,7 +23,6 @@ export async function processSteps(steps: GuideForm["steps"]) {
               hotspotAnnotations: img.hotspotAnnotations || [],
             };
           }
-          // ✅ fallback to schema-safe object
           return {
             url: "",
             caption: img.caption || "",

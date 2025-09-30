@@ -11,10 +11,22 @@ export const guideSchema = z.object({
   model: z.string().optional(),
   summary: z.string().optional(),
   estimatedTimeMinutes: z.number().optional(),
-
   difficulty: z.enum(["Easy", "Medium", "Hard"]).default("Easy"),
-
   tools: z.array(z.string()).default([]),
+
+  symptom: z.object({
+    description: z.string().optional(),
+    images: z
+      .array(
+        z.object({
+          url: z.string().optional(),
+          caption: z.string().optional(),
+          alt: z.string().optional(),
+          file: z.any().optional(),
+        })
+      )
+      .default([]),
+  }),
   parts: z
     .array(
       z.object({

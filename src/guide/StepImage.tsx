@@ -11,6 +11,7 @@ type Props = {
 
 const StepImage = ({ stepIndex }: Props) => {
   const { control, setValue } = useFormContext<GuideForm>();
+  const [previews, setPreviews] = useState<Record<string, string>>({});
 
   const {
     fields: imageFields,
@@ -20,8 +21,6 @@ const StepImage = ({ stepIndex }: Props) => {
     control,
     name: `steps.${stepIndex}.images`,
   });
-
-  const [previews, setPreviews] = useState<Record<string, string>>({});
 
   const handleFileChange = (file: File, imgIndex: number) => {
     const url = URL.createObjectURL(file);
@@ -36,6 +35,15 @@ const StepImage = ({ stepIndex }: Props) => {
       shouldValidate: false,
     });
   };
+
+  const addImagePlaceholder = () =>
+    appendImage({
+      url: "",
+      file: undefined,
+      caption: "",
+      alt: "",
+      hotspotAnnotations: [],
+    });
 
   return (
     <div className="flex flex-col gap-2 ">
@@ -89,15 +97,7 @@ const StepImage = ({ stepIndex }: Props) => {
           type="button"
           variant="outline"
           className="flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-dashed border-purple-600 text-indigo-600 hover:bg-indigo-50"
-          onClick={() =>
-            appendImage({
-              url: "",
-              file: undefined,
-              caption: "",
-              alt: "",
-              hotspotAnnotations: [],
-            })
-          }
+          onClick={addImagePlaceholder}
         >
           <Image className="w-5 h-5" />
           Add Image
