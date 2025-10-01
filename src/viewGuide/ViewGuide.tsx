@@ -46,69 +46,68 @@ const ViewGuide = () => {
         </Card>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Tools Required</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {guide.tools.length > 0 ? (
-              <ul className="list-disc pl-5 space-y-1">
-                {guide.tools.map((tool, i) => (
-                  <li key={i}>{tool}</li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-muted-foreground text-sm">No tools listed</p>
-            )}
-          </CardContent>
-        </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Tools Required</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {guide.tools.length > 0 ? (
+            <ul className="list-disc pl-5 space-y-1">
+              {guide.tools.map((tool, i) => (
+                <li key={i}>{tool}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-muted-foreground text-sm">No tools listed</p>
+          )}
+        </CardContent>
+      </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Symptom</CardTitle>
-          </CardHeader>
+      <Card className="md:col-span-2">
+        <CardHeader>
+          <CardTitle>Parts Required</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {guide.parts.length > 0 ? (
+            <ul className="space-y-2">
+              {guide.parts.map((part, i) => (
+                <li key={i} className="flex flex-col">
+                  <span className="font-medium">{part.name}</span>
+                  <span className="text-sm text-muted-foreground">
+                    {part.partNumber && `Part #: ${part.partNumber}`}{" "}
+                    {part.qty && `Qty: ${part.qty}`}{" "}
+                    {part.link && (
+                      <a
+                        href={part.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        Link
+                      </a>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-muted-foreground text-sm">No parts listed</p>
+          )}
+        </CardContent>
+      </Card>
 
-          <CardContent>
-            {guide.symptom.images.map((img, idx) => (
-              <img key={idx} src={img.url} />
-            ))}
-          </CardContent>
-        </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Symptom</CardTitle>
+          {guide.symptom.description}
+        </CardHeader>
 
-        <Card className="md:col-span-2">
-          <CardHeader>
-            <CardTitle>Parts Required</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {guide.parts.length > 0 ? (
-              <ul className="space-y-2">
-                {guide.parts.map((part, i) => (
-                  <li key={i} className="flex flex-col">
-                    <span className="font-medium">{part.name}</span>
-                    <span className="text-sm text-muted-foreground">
-                      {part.partNumber && `Part #: ${part.partNumber}`}{" "}
-                      {part.qty && `Qty: ${part.qty}`}{" "}
-                      {part.link && (
-                        <a
-                          href={part.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-500 hover:underline"
-                        >
-                          Link
-                        </a>
-                      )}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-muted-foreground text-sm">No parts listed</p>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+        <CardContent className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-2xl">
+          {guide.symptom.images.map((img, idx) => (
+            <img key={idx} src={img.url} />
+          ))}
+        </CardContent>
+      </Card>
 
       <section>
         <h2 className="text-2xl font-semibold mb-4">Steps</h2>

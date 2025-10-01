@@ -16,6 +16,7 @@ import PartsSelector from "./PartsSelector";
 import Steps from "./Steps-v2";
 import Symptom from "./Symptom";
 import { processSymptom } from "./useProcessSymptom";
+import { slugify } from "@/helper/slugify";
 
 const AddGuide = () => {
   const { mutate: createGuide } = useCreateGuide();
@@ -41,8 +42,9 @@ const AddGuide = () => {
   const { handleSubmit, reset, formState } = form;
 
   const onSubmit: SubmitHandler<GuideForm> = async (values) => {
-    const processedSteps = await processSteps(values.steps);
-    const processedSymptom = await processSymptom(values.symptom);
+    const guideSlug = slugify(values.title);
+    const processedSteps = await processSteps(values.steps, guideSlug);
+    const processedSymptom = await processSymptom(values.symptom, guideSlug);
     const payload = {
       ...values,
       steps: processedSteps,

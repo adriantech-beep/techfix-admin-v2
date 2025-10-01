@@ -1,13 +1,19 @@
 import { uploadImage } from "@/services/apiUploadImage";
 import type { GuideForm } from "./guideSchema";
 
-export async function processSteps(steps: GuideForm["steps"]) {
+export async function processSteps(
+  steps: GuideForm["steps"],
+  guideSlug: string
+) {
   return Promise.all(
     steps.map(async (step, idx) => {
       const uploadedImages = await Promise.all(
         step.images.map(async (img) => {
           if (img.file instanceof File) {
-            const url = await uploadImage({ file: img.file });
+            const url = await uploadImage({
+              file: img.file,
+              guideId: guideSlug,
+            });
             return {
               url,
               caption: img.caption || "",
